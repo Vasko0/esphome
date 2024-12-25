@@ -7,7 +7,7 @@ namespace remote_base {
 static const char *const TAG = "remote.qx305";
 
 static const uint32_t HEADER_HIGH_US = 1020;
-static const uint32_t HEADER_LOW_US = 102;
+static const uint32_t HEADER_LOW_US = 34;
 static const uint32_t BIT_ONE_HIGH_US = 102;
 static const uint32_t BIT_ONE_LOW_US = 31;
 static const uint32_t BIT_ZERO_HIGH_US = 34;
@@ -74,11 +74,11 @@ optional<Qx305Data> Qx305Protocol::decode(RemoteReceiveData src) {
       return {};
     }
   }
-  for (uint j = 0; j < 6; j++) {
-    if (!src.expect_item(BIT_ZERO_HIGH_US, BIT_ZERO_LOW_US)) {
-      return {};
-    }
-  }
+  // for (uint j = 0; j < 6; j++) {
+  //   if (!src.expect_item(BIT_ZERO_HIGH_US, BIT_ZERO_LOW_US)) {
+  //     return {};
+  //   }
+  // }
   data.address++;
 
   src.expect_item(HEADER_HIGH_US, HEADER_LOW_US);
