@@ -6,8 +6,8 @@ namespace esphome {
 namespace remote_base {
 
 struct Qx305Data {
-  uint32_t address;
-  uint32_t command;
+  uint16_t address;
+  uint16_t command;
 
   bool operator==(const Qx305Data &rhs) const { return address == rhs.address && command == rhs.command; }
 };
@@ -23,8 +23,8 @@ DECLARE_REMOTE_PROTOCOL(Qx305)
 
 template<typename... Ts> class Qx305Action : public RemoteTransmitterActionBase<Ts...> {
  public:
-  TEMPLATABLE_VALUE(uint32_t, address)
-  TEMPLATABLE_VALUE(uint32_t, command)
+  TEMPLATABLE_VALUE(uint16_t, address)
+  TEMPLATABLE_VALUE(uint16_t, command)
 
   void encode(RemoteTransmitData *dst, Ts... x) override {
     Qx305Data data{};
