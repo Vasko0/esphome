@@ -55,7 +55,7 @@ optional<Qx305Data> Qx305Protocol::decode(RemoteReceiveData src) {
   if (!src.expect_item(HEADER_HIGH_US, HEADER_LOW_US))
     return {};
 
-  for (uint16_t mask = 1UL << 24; mask != 0; mask >>= 1) {
+  for (uint32_t mask = 1UL << 24; mask != 0; mask >>= 1) {
     if (src.expect_item(BIT_ONE_HIGH_US, BIT_ONE_LOW_US)) {
       data.command |= mask;
     } else if (src.expect_item(BIT_ZERO_HIGH_US, BIT_ZERO_LOW_US)) {
@@ -65,7 +65,7 @@ optional<Qx305Data> Qx305Protocol::decode(RemoteReceiveData src) {
     }
   }
 
-  // for (uint16_t mask = 1UL; mask < 1UL << 4; mask <<= 1) {
+  // for (uint32_t mask = 1UL; mask < 1UL << 4; mask <<= 1) {
   //   if (src.expect_item(BIT_ONE_HIGH_US, BIT_ONE_LOW_US)) {
   //     data.address |= mask;
   //   } else if (src.expect_item(BIT_ZERO_HIGH_US, BIT_ZERO_LOW_US)) {
