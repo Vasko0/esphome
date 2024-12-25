@@ -1963,3 +1963,46 @@ async def mirage_action(var, config, args):
     vec_ = cg.std_vector.template(cg.uint8)
     template_ = await cg.templatable(config[CONF_CODE], args, vec_, vec_)
     cg.add(var.set_code(template_))
+
+
+# Qx305
+Qx305Data, Qx305BinarySensor, Qx305Trigger, Qx305Action, Qx305Dumper = declare_protocol(
+    "Qx305"
+)
+DISH_SCHEMA = cv.Schema(
+    {
+        cv.Optional(CONF_ADDRESS, default=1): cv.int_range(min=1, max=16),
+        cv.Required(CONF_COMMAND): cv.int_range(min=0, max=63),
+    }
+)
+
+
+@register_binary_sensor("qx305", Qx305BinarySensor, DISH_SCHEMA)
+def qx305_binary_sensor(var, config):
+    cg.add(
+        var.set_data(
+            cg.StructInitializer(
+                Qx305Data,
+                ("address", config[CONF_ADDRESS]),
+                ("command", config[CONF_COMMAND]),
+            )
+        )
+    )
+
+
+@register_trigger("qx305", Qx305Trigger, Qx305Data)
+def qx305_trigger(var, config):
+    pass
+
+
+@register_dumper("qx305", Qx305Dumper)
+def qx305_dumper(var, config):
+    pass
+
+
+@register_action("qx305", Qx305Action, DISH_SCHEMA)
+async def qx305_action(var, config, args):
+    template_ = await cg.templatable(config[CONF_ADDRESS], args, cg.uint8)
+    cg.add(var.set_address(template_))
+    template_ = await cg.templatable(config[CONF_COMMAND], args, cg.uint8)
+    cg.add(var.set_command(template_))
