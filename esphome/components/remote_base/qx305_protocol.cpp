@@ -61,7 +61,7 @@ optional<Qx305Data> Qx305Protocol::decode(RemoteReceiveData src) {
     } else if (src.expect_item(BIT_ZERO_HIGH_US, BIT_ZERO_LOW_US)) {
       data.command &= ~mask;
     } else {
-      return {};
+      // return {};
     }
   }
 
@@ -71,7 +71,7 @@ optional<Qx305Data> Qx305Protocol::decode(RemoteReceiveData src) {
     } else if (src.expect_item(BIT_ZERO_HIGH_US, BIT_ZERO_LOW_US)) {
       data.address &= ~mask;
     } else {
-      return {};
+      // return {};
     }
   }
   // for (uint j = 0; j < 6; j++) {
