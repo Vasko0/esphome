@@ -55,7 +55,7 @@ optional<Qx305Data> Qx305Protocol::decode(RemoteReceiveData src) {
   if (!src.expect_item(HEADER_HIGH_US, HEADER_LOW_US))
     return {};
 
-  for (uint32_t mask = 1UL << 20; mask != 0; mask >>= 1) {
+  for (uint32_t mask = 1UL << 24; mask != 0; mask >>= 1) {
     if (src.expect_item(BIT_ONE_HIGH_US, BIT_ONE_LOW_US)) {
       data.command |= mask;
     } else if (src.expect_item(BIT_ZERO_HIGH_US, BIT_ZERO_LOW_US)) {
@@ -65,29 +65,29 @@ optional<Qx305Data> Qx305Protocol::decode(RemoteReceiveData src) {
     }
   }
 
-  for (uint32_t mask = 1UL; mask < 1UL << 4; mask <<= 1) {
-    if (src.expect_item(BIT_ONE_HIGH_US, BIT_ONE_LOW_US)) {
-      data.address |= mask;
-    } else if (src.expect_item(BIT_ZERO_HIGH_US, BIT_ZERO_LOW_US)) {
-      data.address &= ~mask;
-    } else {
-      // return {};
-    }
-  }
+  // for (uint32_t mask = 1UL; mask < 1UL << 4; mask <<= 1) {
+  //   if (src.expect_item(BIT_ONE_HIGH_US, BIT_ONE_LOW_US)) {
+  //     data.address |= mask;
+  //   } else if (src.expect_item(BIT_ZERO_HIGH_US, BIT_ZERO_LOW_US)) {
+  //     data.address &= ~mask;
+  //   } else {
+  //     // return {};
+  //   }
+  // }
   // for (uint j = 0; j < 6; j++) {
   //   if (!src.expect_item(BIT_ZERO_HIGH_US, BIT_ZERO_LOW_US)) {
   //     return {};
   //   }
   // }
-  data.address++;
+  // data.address++;
 
-  src.expect_item(HEADER_HIGH_US, HEADER_LOW_US);
+  // src.expect_item(HEADER_HIGH_US, HEADER_LOW_US);
 
   return data;
 }
 
 void Qx305Protocol::dump(const Qx305Data &data) {
-  ESP_LOGI(TAG, "Received Dish: address=0x%02X, command=0x%02X", data.address, data.command);
+  ESP_LOGI(TAG, "Received QX-305: command=0x%02X, address=0x%02X", data.address, data.command);
 }
 
 }  // namespace remote_base
