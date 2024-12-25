@@ -9,8 +9,8 @@ static const char *const TAG = "remote.qx305";
 static const uint32_t HEADER_HIGH_US = 1020;
 static const uint32_t HEADER_LOW_US = 102;
 static const uint32_t BIT_ONE_HIGH_US = 102;
-static const uint32_t BIT_ZERO_HIGH_US = 35;
-static const uint32_t BIT_ONE_LOW_US = 32;
+static const uint32_t BIT_ONE_LOW_US = 31;
+static const uint32_t BIT_ZERO_HIGH_US = 34;
 static const uint32_t BIT_ZERO_LOW_US = 100;
 
 void Qx305Protocol::encode(RemoteTransmitData *dst, const Qx305Data &data) {
