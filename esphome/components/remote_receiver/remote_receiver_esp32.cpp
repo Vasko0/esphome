@@ -233,6 +233,7 @@ void RemoteReceiverComponent::decode_rmt_(rmt_item32_t *item, size_t item_count)
   int32_t multiplier = this->pin_->is_inverted() ? -1 : 1;
   uint32_t filter_ticks = this->from_microseconds_(this->filter_us_);
 
+  ESP_LOGW(TAG, "Start exporting to temp_: %zu - item_count");
   ESP_LOGVV(TAG, "START:");
   for (size_t i = 0; i < item_count; i++) {
     if (item[i].level0) {
@@ -295,6 +296,7 @@ void RemoteReceiverComponent::decode_rmt_(rmt_item32_t *item, size_t item_count)
       this->temp_.push_back(-int32_t(this->to_microseconds_(prev_length)) * multiplier);
     }
   }
+  ESP_LOGW(TAG, "Last item writen");
 }
 
 }  // namespace remote_receiver
