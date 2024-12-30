@@ -233,19 +233,24 @@ void RemoteReceiverComponent::decode_rmt_(rmt_item32_t *item, size_t item_count)
   int32_t multiplier = this->pin_->is_inverted() ? -1 : 1;
   uint32_t filter_ticks = this->from_microseconds_(this->filter_us_);
 
-  ESP_LOGW(TAG, "START:");
+  ESP_LOGVV(TAG, "START:");
   for (size_t i = 0; i < item_count; i++) {
     if (item[i].level0) {
-      ESP_LOGW(TAG, "+%" PRIu32 "%u", this->to_microseconds_(item[i].duration0));
+      ESP_LOGVV(TAG, "%zu A: ON %" PRIu32 "us (%u ticks)", i, this->to_microseconds_(item[i].duration0),
+                item[i].duration0);
     } else {
-      ESP_LOGW(TAG, "-%" PRIu32 "%u", this->to_microseconds_(item[i].duration0));
+      ESP_LOGVV(TAG, "%zu A: OFF %" PRIu32 "us (%u ticks)", i, this->to_microseconds_(item[i].duration0),
+                item[i].duration0);
     }
     if (item[i].level1) {
-      ESP_LOGW(TAG, "+%" PRIu32 "%u", this->to_microseconds_(item[i].duration1));
+      ESP_LOGVV(TAG, "%zu B: ON %" PRIu32 "us (%u ticks)", i, this->to_microseconds_(item[i].duration1),
+                item[i].duration1);
     } else {
-      ESP_LOGW(TAG, "-%" PRIu32 "%u", this->to_microseconds_(item[i].duration1));
+      ESP_LOGVV(TAG, "%zu B: OFF %" PRIu32 "us (%u ticks)", i, this->to_microseconds_(item[i].duration1),
+                item[i].duration1);
     }
   }
+  ESP_LOGVV(TAG, "\n");
 
   this->temp_.reserve(item_count * 2);  // each RMT item has 2 pulses
   for (size_t i = 0; i < item_count; i++) {
